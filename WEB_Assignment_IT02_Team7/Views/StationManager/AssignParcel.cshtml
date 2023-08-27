@@ -1,0 +1,78 @@
+﻿@model WEB_Assignment_IT02_Team7.Models.AssignDeliveryViewModel
+
+@{
+	ViewData["Title"] = "AssignParcel";
+}
+
+<style>
+	/* Center the content horizontally */
+	.text-center {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 90vh; /* Set the container height to the full viewport height */
+	}
+
+	/* Style the form content container */
+	.FormContent {
+		max-width: 400px; /* Adjust the width as needed */
+		margin: 0 auto; /* Center the form horizontally */
+		padding: 20px;
+		padding-top: 30px; /* Add padding on top */
+		border: 1px solid #ccc;
+		border-radius: 5px;
+		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+		background-color: #f4f4f4; /* Set light grey color as background */
+	}
+
+	/* Style the labels */
+	.col-form-label {
+		font-weight: bold;
+		color: #333;
+	}
+
+	/* Style the input fields */
+	.form-control {
+		width: 100%;
+		padding: 8px;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		box-sizing: border-box;
+		margin-top: 5px;
+	}
+</style>
+
+<div class="text-center">
+	<form asp-action="AssignParcel">
+		<fieldset class="FormContent">
+
+			<div class="row mb-3">
+				<label asp-for="ParcelID" class="col-sm-3 col-form-label"></label>
+				<div class="col-lg-9 col-md-7">
+					<input asp-for="ParcelID" class="form-control" />
+					<span asp-validation-for="ParcelID" class="text-danger"></span>
+				</div>
+			</div>
+
+			<div class="row mb-3">
+				<label asp-for="DeliveryManID" class="col-sm-3 col-form-label"></label>
+				<div class="col-lg-9 col-md-7">
+					<input asp-for="DeliveryManID" class="form-control" />
+					<span asp-validation-for="DeliveryManID" class="text-danger"></span>
+				</div>
+			</div>
+
+			<span style="color:red;">@TempData["ErrorMessage"]</span>
+			<div class="row mb-3">
+				<div class="">
+					<input type="submit" value="Assign" class="btn btn-primary" />
+				</div>
+			</div>
+		</fieldset>
+	</form>
+</div>
+
+@if (Convert.ToBoolean(ViewData["Error"]))
+{
+	<h2 class="text-center text-danger">No Information found.</h2>
+}

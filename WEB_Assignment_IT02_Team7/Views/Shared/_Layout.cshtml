@@ -1,0 +1,84 @@
+﻿@{
+    var role = Context.Session.GetString("Role");
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - NP Courier Service</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WEB_Assignment_IT02_Team7.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        @switch (role)
+        {
+            case "Front Office Staff":
+                if (Context.Session.GetString("Page") == "Transact")
+                {
+                    @await Html.PartialAsync("~/Views/FrontOffice/_TransactReturnMenu.cshtml")
+                }
+                else
+                {
+                    @await Html.PartialAsync("~/Views/FrontOffice/_FrontOfficeMenu.cshtml")
+                }
+                break;
+            case "Station Manager":
+                @await Html.PartialAsync("~/Views/StationManager/_StationManagerMenu.cshtml")
+                ;
+                break;
+            case "Delivery Man":
+                @await Html.PartialAsync("~/Views/DeliveryMan/_DeliveryManMenu.cshtml")
+                ;
+                break;
+            case "Customer":
+                @await Html.PartialAsync("~/Views/Customer/_CustomerMenu.cshtml")
+                ;
+                break;
+            default:
+                @await Html.PartialAsync("_CommonMenu.cshtml")
+                ;
+                break;
+        }
+    </header>
+    <div class="background-image-container @GetBodyClass(ViewData["Title"].ToString())"></div>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div>
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+@functions {
+    public static string GetBodyClass(string pageTitle)
+    {
+        switch (pageTitle)
+        {
+            case "Home":
+                return "body-home";
+            case "About Us":
+                return "body-about";
+            case "Contact Us":
+                return "body-contact";
+            case "Track Delivery":
+                return "body-track";
+            case "LoginRegister":
+                return "body-loginRegister";
+            case "StaffLogin":
+                return "body-loginRegister";
+            case "MemberLogin":
+                return "body-loginRegister";          
+            default:
+                return "";
+        }
+    }
+}

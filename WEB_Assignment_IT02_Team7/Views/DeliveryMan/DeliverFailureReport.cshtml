@@ -1,0 +1,77 @@
+﻿@model WEB_Assignment_IT02_Team7.Models.DeliveryFailureReport
+
+@{
+    ViewData["Title"] = "DeliverFailureReport";
+}
+
+<style>
+    /* styles.css */
+    .form-container {
+        background-color: #f2f2f2; /* Light grey background color */
+        padding: 20px; /* Add some padding to create spacing between form elements and the container */
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+        }
+
+    .form-group label {
+        font-weight: bold;
+        display: block;
+    }
+
+    textarea.form-control {
+        resize: vertical;
+    }
+
+    .dmfr {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 90vh; /* Ensure the container takes at least the full height of the viewport */
+    }
+
+    .form-wrapper {
+        padding: 20px; /* Add some padding to create spacing within the wrapper */
+        margin: 0 auto; /* Set margin to auto to center the form horizontally */
+    }
+</style>
+
+<div class="dmfr form-wrapper">
+    @using (Html.BeginForm("DeliverFailureReport", "DeliveryMan", FormMethod.Post))
+    {
+        <div class="form-group">
+            @Html.LabelFor(model => model.parcelid)
+            @Html.TextBoxFor(model => model.parcelid, new { @class = "form-control", @placeholder = "Enter Parcel ID" })
+            @Html.ValidationMessageFor(model => model.parcelid)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.failuretype)
+            @Html.TextBoxFor(model => model.failuretype, new { @class = "form-control", @placeholder = "Enter Failure Type (Single Digit)" })
+            @Html.ValidationMessageFor(model => model.failuretype)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.description)
+            @Html.TextAreaFor(model => model.description, new { @class = "form-control", @placeholder = "Enter Description", rows = 4 })
+            @Html.ValidationMessageFor(model => model.description)
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    }
+</div>

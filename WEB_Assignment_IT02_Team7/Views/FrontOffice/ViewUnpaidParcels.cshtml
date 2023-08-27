@@ -1,0 +1,72 @@
+﻿@model IEnumerable<WEB_Assignment_IT02_Team7.Models.Parcel>
+
+@{
+    ViewData["Title"] = "ViewUnpaidParcels";
+}
+
+@if (Model.ToList().Count > 0)
+{
+    <div class="unpaidTable">
+        <h2 class="text-center mb-2">Unpaid Parcels</h2>
+        <div class="input-group mb-3">
+            <div class="col-sm-4 mx-auto">
+                <input type="text" class="form-control" style="margin-bottom: 10px;" id="searchInput" placeholder="Search by Parcel ID" onkeyup="filterTable()">
+            </div>
+        </div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Parcel ID</th>
+                    <th>Original Delivery Charge ($)</th>
+                    <th>Unpaid Delivery Charge ($)</th>
+                    <th>Currency</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.ParcelID</td>
+                        <td>@string.Format("{0:F2}", item.DeliveryCharge)</td>
+                        <td>@string.Format("{0:F2}", item.UnpaidDeliveryCharge)</td>
+                        <td>@item.Currency</td>
+                        <td>
+                            <a class="btn btn-primary btn-sm btn-table"
+                               asp-action="PaymentTransaction"
+                               asp-controller="FrontOffice"
+                               asp-route-parcelID="@item.ParcelID"
+                               asp-route-originalCharge="@item.DeliveryCharge"
+                               asp-route-unpaidCharge="@item.UnpaidDeliveryCharge">
+                                Make Payment
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="noUnpaidParcels">
+        <h2 class="text-center text-danger">No Unpaid Parcels</h2>
+    </div>
+}
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#searchInput").on("keyup", function () {
+            var value = $(this).val().toUpperCase();
+            $("table tbody tr").each(function () {
+                var parcelId = $(this).find("td:first").text().toUpperCase();
+                if (parcelId.includes(value)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        });
+    });
+</script>

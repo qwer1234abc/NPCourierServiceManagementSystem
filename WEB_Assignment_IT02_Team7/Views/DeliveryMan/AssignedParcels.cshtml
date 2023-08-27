@@ -1,0 +1,51 @@
+﻿@model IEnumerable<WEB_Assignment_IT02_Team7.Models.Parcel>
+
+@{
+    ViewData["Title"] = "AssignedParcels";
+}
+
+@if (Model.ToList().Count > 0)
+{
+    <div class="assignedParcels">
+        <h2 class="text-center">Parcels Assigned to Delivery Man</h2>
+        <table class="table">
+            <tr>
+                <th>Parcel ID</th>
+                <th>Delivery Type</th>
+                <th>Target Delivery DateTime</th>
+                <th>Delivery Status</th>
+                <th>Success</th>
+                <th>Failed</th>
+            </tr>
+            @foreach (var parcel in Model)
+            {
+                <tr>
+                    <td>@parcel.ParcelID</td>
+                    <td>
+                        @if (@parcel.ToCountry == @parcel.FromCountry)
+                        {
+                            <span>Local</span>
+                        }
+                        else
+                        {
+                            <span>Overseas</span>
+                        }
+
+                    </td>
+                    <td>@parcel.TargetDeliveryDate</td>
+                    <td>@parcel.DeliveryStatus</td>
+                    <!--Link to Controller-->
+                    <td><a asp-action="UpdateDeliveryStatus" asp-route-parcelID="@parcel.ParcelID" asp-route-fromCountry="@parcel.FromCountry" asp-route-toCountry="@parcel.ToCountry" class="btn btn-primary btn-sm btn-table">Update</a></td>
+                    <td><a asp-action="FailDeliveryStatus" asp-route-parcelID="@parcel.ParcelID" class="btn btn-primary btn-sm btn-table">Failed </a></td>
+
+                </tr>
+            }
+        </table>
+    </div>
+}
+else
+{
+    <div class="noAssignedParcels">
+        <p>No parcels assigned to this delivery man.</p>
+    </div>
+}

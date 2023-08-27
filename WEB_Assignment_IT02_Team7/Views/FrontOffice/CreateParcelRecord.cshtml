@@ -1,0 +1,238 @@
+﻿@model WEB_Assignment_IT02_Team7.Models.Parcel
+@{
+    ViewData["Title"] = "CreateDeliveryOrder";
+    var toCountryCityDict = ViewData["ToCountryCityDict"] as Dictionary<string, List<SelectListItem>>;
+    var fromCountryCityDict = ViewData["FromCountryCityDict"] as Dictionary<string, List<SelectListItem>>;
+    var previousToCity = ViewData["SelectedToCity"] as string;
+    var previousFromCity = ViewData["SelectedFromCity"] as string;
+}
+
+<div class="createParcelForm">
+    <h2 style="text-align:center;">Create Parcel Record</h2>
+    <form asp-action="CreateParcelRecord" method="post">
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label asp-for="SenderName"></label>
+                <div class="d-flex flex-column">
+                    <input asp-for="SenderName" type="text" class="form-control disable-on-compute">
+                    <span asp-validation-for="SenderName" class="text-danger mt-1"></span>
+                </div>
+            </div>
+            <div class="form-group col-md-3">
+                <label asp-for="SenderTelNo"></label>
+                <div class="d-flex flex-column">
+                    <input asp-for="SenderTelNo" type="text" class="form-control disable-on-compute">
+                    <span asp-validation-for="SenderTelNo" class="text-danger mt-1"></span>
+                </div>
+            </div>
+            <div class="form-group col-md-2.9">
+                <label asp-for="ReceiverName"></label>
+                <div class="d-flex flex-column">
+                    <input asp-for="ReceiverName" type="text" class="form-control disable-on-compute">
+                    <span asp-validation-for="ReceiverName" class="text-danger mt-1"></span>
+                </div>
+            </div>
+            <div class="form-group col-md-2.9">
+                <label asp-for="ReceiverTelNo"></label>
+                <div class="d-flex flex-column">
+                    <input asp-for="ReceiverTelNo" type="text" class="form-control disable-on-compute">
+                    <span asp-validation-for="ReceiverTelNo" class="text-danger mt-1"></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <div class="d-flex flex-column">
+                    <label asp-for="ParcelWeight"></label>
+                    <input asp-for="ParcelWeight" type="number" step="0.01" min="0.01" class="form-control disable-on-compute">
+                    <span asp-validation-for="ParcelWeight" class="text-danger mt-1"></span>
+                </div>
+            </div>
+            <div class="form-group col-md-3">
+                <div class="d-flex flex-column">
+                    <label asp-for="FromCountry"></label>
+                    <select asp-for="FromCountry" id="FromCountry" class="form-select disable-on-compute" asp-items="@ViewData["FromCountriesList"] as List<SelectListItem>">
+                    </select>
+                </div>
+            </div>
+            <div class="form-group col-md-3">
+                <div class="d-flex flex-column">
+                    <label asp-for="FromCity"></label>
+                    <select asp-for="FromCity" id="FromCity" class="form-select disable-on-compute">
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <div class="d-flex flex-column">
+                    <label asp-for="DeliveryAddress"></label>
+                    <input asp-for="DeliveryAddress" type="text" class="form-control disable-on-compute">
+                    <span asp-validation-for="DeliveryAddress" class="text-danger mt-1"></span>
+                </div>
+            </div>
+            <div class="form-group col-md-3">
+                <div class="d-flex flex-column">
+                    <label asp-for="ToCountry"></label>
+                    <select asp-for="ToCountry" id="ToCountry" class="form-select disable-on-compute" asp-items="@ViewData["ToCountriesList"] as List<SelectListItem>">
+                    </select>
+                </div>
+            </div>
+            <div class="form-group col-md-3">
+                <div class="d-flex flex-column">
+                    <label asp-for="ToCity"></label>
+                    <select asp-for="ToCity" id="ToCity" class="form-select disable-on-compute">
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-11">
+                <div class="d-flex flex-column">
+                    <label asp-for="ItemDescription"></label>
+                    <textarea asp-for="ItemDescription" class="form-control disable-on-compute"></textarea>
+                </div>
+            </div>
+        </div>
+        @if (!Convert.ToBoolean(ViewData["ShowCompute"]))
+        {
+            <div class="form-group col-md-3">
+                <button type="submit" name="submitButton" value="Compute" class="btn btn-primary" style="margin-top: 20px;">Compute</button>
+            </div>
+        }
+        @if (Convert.ToBoolean(ViewData["ShowCompute"]))
+        {
+            <hr class="custom-hr" />
+            <h2 style="text-align: center; margin-bottom: 20px;">Compute Parcel</h2>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label asp-for="ParcelWeight"></label>
+                    <span class="form-control">@Html.Display("ParcelWeight")</span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label>From City & Country</label>
+                    <span class="form-control">@Html.Raw(ViewData["FromCityCountry"])</span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label>To City & Country</label>
+                    <span class="form-control">@Html.Raw(ViewData["ToCityCountry"])</span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <label>Transit Days</label>
+                    <span class="form-control">@Html.Raw(ViewData["TransitDays"])</span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="TargetDeliveryDate"></label>
+                    <span class="form-control">@Html.Display("TargetDeliveryDate")</span>
+                </div>
+                <div class="form-group col-md-2">
+                    <label>Shipping Rate</label>
+                    <span class="form-control">@Html.Raw(ViewData["ShippingRate"])</span>
+                </div>
+                <div class="form-group col-md-1">
+                    <label asp-for="Currency"></label>
+                    <span class="form-control">@Html.Display("Currency")</span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label>Delivery Charge (Raw)</label>
+                    <span class="form-control">@Html.Raw(ViewData["RawDeliveryCharge"])</span>
+                </div>
+                <div class="form-group col-md-3.5">
+                    <label>Delivery Charge (Rounded)</label>
+                    <span class="form-control">@Html.Raw(ViewData["RoundedDeliveryCharge"])</span>
+                </div>
+                <div class="form-group col-md-3.5">
+                    <label>Delivery Charge (Final)</label>
+                    <span class="form-control" data-toggle="tooltip" data-placement="top" title="Minimum delivery charge is S$5.00">
+                        @Html.Raw(ViewData["FinalDeliveryCharge"])
+                    </span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="d-flex justify-content-between">
+                    <div class="form-group">
+                        <button type="submit" name="submitButton" value="Create" class="btn btn-primary" style="margin-top: 20px;">Create</button>
+                    </div>
+                    <div class="form-group d-flex justify-content-end">
+                        <button type="submit" name="submitButton" value="Edit" class="btn btn-primary" style="margin-top: 20px;">Edit</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </form>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+        var toCountryCityDict = @Html.Raw(Json.Serialize(toCountryCityDict));
+        var fromCountryCityDict = @Html.Raw(Json.Serialize(fromCountryCityDict));
+        var previousToCity = @Html.Raw(Json.Serialize(previousToCity));
+        var previousFromCity = @Html.Raw(Json.Serialize(previousFromCity));
+
+        function updateToCityOptions() {
+            var selectedCountry = $('#ToCountry').val();
+            var cities = toCountryCityDict[selectedCountry];
+            $('#ToCity').empty();
+            $.each(cities, function (index, city) {
+                var option = $('<option>', {
+                    value: city.value,
+                    text: city.text
+                });
+                if (city.value === previousToCity) {
+                    option.attr('selected', 'selected');
+                }
+
+                $('#ToCity').append(option);
+            });
+        }
+
+        function updateFromCityOptions() {
+            var selectedCountry = $('#FromCountry').val();
+            var cities = fromCountryCityDict[selectedCountry];
+            $('#FromCity').empty();
+            $.each(cities, function (index, city) {
+                var option = $('<option>', {
+                    value: city.value,
+                    text: city.text
+                });
+                if (city.value === previousFromCity) {
+                    option.attr('selected', 'selected');
+                }
+
+                $('#FromCity').append(option);
+            });
+        }
+
+        $('#ToCountry').change(function () {
+            updateToCityOptions();
+        }).trigger('change');
+
+        $('#FromCountry').change(function () {
+            updateFromCityOptions();
+        }).trigger('change');
+
+        window.onload = function () {
+            updateToCityOptions();
+            updateFromCityOptions();
+        };
+
+        var showCompute = @Json.Serialize(ViewData["ShowCompute"]);
+        if (showCompute) {
+            $('.disable-on-compute').addClass('readonly');
+            $('.readonly').on('mousedown', function (e) {
+                e.preventDefault();
+                this.blur();
+                return false;
+            });
+        }
+        else {
+            $('.disable-on-compute').removeClass('readonly')
+        }
+    });
+</script>

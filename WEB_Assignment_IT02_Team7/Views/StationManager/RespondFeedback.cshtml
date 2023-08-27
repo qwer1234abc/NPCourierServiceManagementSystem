@@ -1,0 +1,61 @@
+﻿@model IEnumerable<WEB_Assignment_IT02_Team7.Models.FeedbackEnquiry>
+
+@{
+    ViewData["Title"] = "RespondFeedback";
+}
+
+@if (Model.ToList().Count > 0)
+{
+    <div class="responseTable">
+        <h2 class="text-center">Respond Feedback</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Feedback Enquiry ID</th>
+                    <th>Member ID</th>
+                    <th>Date Time Posted</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.FeedbackEnquiryID</td>
+                        <td>@item.MemberID</td>
+                        <td>@item.DateTimePosted</td>
+                        <td>
+                            @if (item.Status == '0')
+                            {
+                                <span class="text-warning">Pending Response</span>
+                            }
+                            else if (item.Status == '1')
+                            {
+                                <span class="text-primary">Closed</span>
+                            }
+                            else
+                            {
+                                <span class="text-muted">Unknown Status</span>
+                            }
+                        </td>
+                        <td>
+                            <a class="btn btn-primary btn-sm btn-table"
+                       asp-action="CreateResponse"
+                       asp-controller="StationManager"
+                       asp-route-feedbackEnquiryID="@item.FeedbackEnquiryID">
+                                Respond
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="noResponse">
+        <h2 class="text-center text-danger">No Feedbacks to Respond.</h2>
+    </div>
+}

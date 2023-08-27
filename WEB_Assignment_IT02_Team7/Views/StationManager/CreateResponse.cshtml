@@ -1,0 +1,23 @@
+﻿@model WEB_Assignment_IT02_Team7.Models.FeedbackEnquiry
+
+@{
+    ViewData["Title"] = "CreateResponse";
+}
+
+<div class="createResponseForm">
+    <h2 style="text-align:center;">Create Response</h2>
+    <form asp-action="CreateResponse" method="post">
+        <div class="form-group">
+            <label>Feedback/Enquiry Content:</label>
+            <textarea asp-for="Content" class="form-control" rows="8" readonly>@Html.Display("Content")</textarea>
+        </div>
+        <div class="form-group mt-5">
+            <label>Enter Response Here:</label>
+            <textarea asp-for="Response" class="form-control" rows="8" placeholder="Type your response here."></textarea>
+            <span asp-validation-for="Response" class="text-danger mt-1"></span>
+        </div>
+        <div class="form-group">
+            <button type="submit" value="Submit" class="btn btn-primary" style="margin-top: 20px;" asp-route-feedbackEnquiryID="@Model.FeedbackEnquiryID">Submit</button>
+        </div>
+    </form>
+</div>

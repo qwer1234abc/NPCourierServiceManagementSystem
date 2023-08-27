@@ -1,0 +1,20 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    var role = Context.Session.GetString("Role");
+    var name = Context.Session.GetString("Name");
+}
+
+<div class="container front-index-container">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-8">
+            <h2>Welcome @name!</h2>
+            <h3>Here are the functions for @role:</h3>
+            <ul class="list-group list-group-flush">
+                <a href="~/FrontOffice/CreateParcelRecord" class="list-group-item list-group-item-action">Create Parcel Delivery Record</a>
+                <a href="~/FrontOffice/CreateParcelRecord" class="list-group-item list-group-item-action">Compute Target Delivery Date</a>
+                <a href="~/FrontOffice/CreateParcelRecord" class="list-group-item list-group-item-action">Calculate Delivery Charge</a>
+                <a href="~/FrontOffice/ViewUnpaidParcels" class="list-group-item list-group-item-action">Create Payment Transaction</a>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,65 @@
+﻿@model IEnumerable<WEB_Assignment_IT02_Team7.Models.FeedbackEnquiry>
+
+@{
+    ViewData["Title"] = "ViewResponse";
+}
+
+@if (Model.ToList().Count > 0)
+{
+    <div class="viewResponses">
+        <h2 class="text-center">Delivery Record/History</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Content</th>
+                    <th>Response</th>
+                    <th>Date Time Posted</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @(item.Content.Length > 15 ? item.Content.Substring(0, Math.Min(15, item.Content.Length)) + "..." : item.Content)
+                        </td>
+                        <td>
+                            @(item.Response != null && item.Response.Length > 15 ? item.Response.Substring(0, Math.Min(15, item.Response.Length)) + "..." : item.Response)
+                        </td>
+                        <td>@item.DateTimePosted</td>
+                        <td>
+                            @if (item.Status == '0')
+                            {
+                                <span class="text-warning">Pending Response</span>
+                            }
+                            else if (item.Status == '1')
+                            {
+                                <span class="text-primary">Closed</span>
+                            }
+                            else
+                            {
+                                <span class="text-muted">Unknown Status</span>
+                            }
+                        </td>
+                        <td>
+                            <a class="btn btn-primary btn-sm btn-table"
+                       asp-action="ResponseDetails"
+                       asp-controller="Customer"
+                       asp-route-feedbackEnquiryID="@item.FeedbackEnquiryID">
+                                View
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="noResponse">
+        <h2 class="text-center text-danger">No Feedback/Enquiries yet.</h2>
+    </div>
+}

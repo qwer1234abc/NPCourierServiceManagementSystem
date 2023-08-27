@@ -1,0 +1,292 @@
+﻿@model WEB_Assignment_IT02_Team7.Models.ParcelPayment
+@{
+    ViewData["Title"] = "PaymentTransaction";
+    var originalAmount = ViewData["OriginalAmount"] as double?;
+    var unpaidAmount = ViewData["UnpaidAmount"] as double?;
+    var cashVoucherValid = Convert.ToBoolean(ViewData["CashVoucherValid"]);
+}
+
+<div class="row">
+    <div class="col-md-7">
+        <div class="transactPayment" style="margin-bottom:0;">
+            <h2 style="text-align:center;">Payment Transaction</h2>
+            <form asp-action="PaymentTransaction" method="post">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="PaymentTransactions.PaymentMethod"></label>
+                        <select asp-for="PaymentTransactions.PaymentMethod" class="form-select" id="paymentMethod" asp-items="@ViewData["PaymentMethods"] as List<SelectListItem>">
+                        </select>
+                    </div>
+                    <div class="form-group col-md-5">
+                        <label asp-for="PaymentTransactions.CashAmt"></label>
+                        <div class="d-flex flex-column">
+                            <input asp-for="PaymentTransactions.CashAmt" type="number" step="0.01" min="0.01" class="form-control" id="cashAmount" disabled>
+                            <span asp-validation-for="PaymentTransactions.CashAmt" class="text-danger mt-1"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-5">
+                        <label asp-for="CashVouchers.CashVoucherID"></label>
+                        <div class="d-flex flex-column">
+                            <div class="input-group">
+                                <input asp-for="CashVouchers.CashVoucherID" type="number" step="1" min="1" class="form-control" id="voucherID" disabled>
+                                <button type="submit" name="submitButton" class="btn btn-outline-primary" value="Verify" id="verifyButton"
+                                        asp-route-parcelID="@ViewData["ParcelID"]" asp-route-originalCharge="@(originalAmount ?? 0)"
+                                        asp-route-unpaidCharge="@(unpaidAmount ?? 0)">
+                                    Verify
+                                </button>
+                            </div>
+                            <span asp-validation-for="CashVouchers.CashVoucherID" class="text-danger mt-1"></span>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-5">
+                        <label asp-for="PaymentTransactions.VoucherAmt"></label>
+                        <div class="d-flex flex-column">
+                            <input asp-for="PaymentTransactions.VoucherAmt" type="text" class="form-control" id="voucherAmount" disabled>
+                            <span asp-validation-for="PaymentTransactions.VoucherAmt" class="text-danger mt-1"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label asp-for="PaymentTransactions.TotalAmt"></label>
+                        <div class="d-flex flex-column">
+                            <input asp-for="PaymentTransactions.TotalAmt" type="text" class="form-control" id="total" readonly>
+                            <span asp-validation-for="PaymentTransactions.TotalAmt" class="text-danger mt-1"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="d-flex justify-content-between">
+                        <div class="form-group">
+                            <button type="submit" name="submitButton" value="Create" class="btn btn-primary" style="margin-top: 20px;"
+                                    asp-route-parcelID="@ViewData["ParcelID"]" asp-route-originalCharge="@(originalAmount ?? 0)"
+                                    asp-route-unpaidCharge="@(unpaidAmount ?? 0)">
+                                Create
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="voucherDetails">
+            <h3 style="text-align:center;">Voucher Details</h3>
+            @if (Convert.ToBoolean(ViewData["InvalidErrorMessage"]))
+            {
+                <div class="alert alert-danger" role="alert">
+                    <strong>Invalid Voucher ID!</strong> Please enter a valid voucher ID.
+                </div>
+            }
+            else
+            {
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Voucher ID</label>
+                            <span id="id" class="form-control">@Html.DisplayFor(model => model.CashVouchers.CashVoucherID)</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Amount</label>
+                            <span id="amount" class="form-control">@Html.DisplayFor(model => model.CashVouchers.Amount)</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Status</label>
+                            <span id="status" class="form-control">@Html.DisplayFor(model => model.CashVouchers.Status)</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Currency</label>
+                            <span id="currency" class="form-control">@Html.DisplayFor(model => model.CashVouchers.Currency)</span>
+                        </div>
+                    </div>
+                    <div class="form-group voucherErrorMessage text-danger" style="margin-top:20px; display:none;">
+                        <span style="text-align:center;">
+                            Voucher not collected or already used! Please check the status.
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <button id="applyButton" value="Apply" class="btn btn-primary" style="margin-top: 20px;">Apply</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<div class="transactDetails">
+    <h2 style="text-align: center;">Parcel Details</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Parcel ID</label>
+                <span class="form-control">@Html.Raw(ViewData["ParcelID"])</span>
+            </div>
+            <div class="form-group">
+                <label>From City & Country</label>
+                <span class="form-control">@Html.Raw(ViewData["FromCityCountry"])</span>
+            </div>
+            <div class="form-group">
+                <label>Original Charge (@ViewData["Currency"])</label>
+                <span class="form-control">@Html.Raw(ViewData["OriginalCharge"])</span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Parcel Weight</label>
+                <span class="form-control">@Html.Raw(ViewData["ParcelWeight"])</span>
+            </div>
+            <div class="form-group">
+                <label>To City & Country</label>
+                <span class="form-control">@Html.Raw(ViewData["ToCityCountry"])</span>
+            </div>
+            <div class="form-group">
+                <label>Unpaid Charge (@ViewData["Currency"])</label>
+                <span class="form-control">@Html.Raw(ViewData["UnpaidCharge"])</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        var cashVoucherValid = @Html.Raw(Json.Serialize(cashVoucherValid));
+        var initialVoucherAmount = $('#voucherAmount').val();
+
+        function applyPaymentMethod(paymentMethod) {
+            if (paymentMethod === 'CASH') {
+                $('#cashAmount').prop('disabled', false);
+                $('#voucherID').val('').prop('disabled', true);
+                $('#voucherAmount').val('').prop('disabled', true).prop('readonly', false);
+                $('#verifyButton').prop('disabled', true);
+            } else if (paymentMethod === 'VOUC') {
+                $('#cashAmount').val('').prop('disabled', true);
+                $('#voucherID').prop('disabled', false);
+                $('#voucherAmount').prop('disabled', false).prop('readonly', true);
+                validateVoucherID();
+            } else if (paymentMethod === 'CASHVOUC') {
+                $('#cashAmount').prop('disabled', false);
+                $('#voucherID').prop('disabled', false);
+                $('#voucherAmount').prop('disabled', false).prop('readonly', true);
+                validateVoucherID();
+            }
+            updateTotal();
+        }
+
+        window.onload = function () {
+            applyPaymentMethod($('#paymentMethod').val());
+        };
+
+        $('#paymentMethod').change(function () {
+            var selectedPaymentMethod = $(this).val();
+            applyPaymentMethod(selectedPaymentMethod);
+        });
+
+        checkEmptyValues();
+
+        $('#paymentMethod').trigger('change');
+
+        toggleApplyButton();
+
+        $('#cashAmount, #voucherAmount').on('input', function () {
+            updateTotal();
+        });
+
+        $('#cashAmount').on('input', function () {
+            validateCashAmount();
+            updateTotal();
+        });
+
+        $('#voucherID').on('input', function () {
+            var voucherID = $(this).val();
+            var voucherAmount = $('#voucherAmount');
+            var voucherDetails = $('.voucherDetails');
+            resetVoucherDetails();
+
+            // Reset voucher amount to null
+            voucherAmount.val('');
+
+            if (voucherID !== '') {
+                validateVoucherID();
+                toggleApplyButton();
+                updateTotal();
+            }
+        });
+
+
+        $('#applyButton').on('click', function () {
+            validateCashVoucher();
+        });
+
+        function validateCashVoucher() {
+            if (cashVoucherValid) {
+                $('.voucherErrorMessage').hide();
+                $('#voucherAmount').val($('#amount').text().trim());
+            } else {
+                $('.voucherErrorMessage').show();
+            }
+            updateTotal();
+        }
+
+        function validateVoucherID() {
+            var voucherID = $('#voucherID').val();
+            var verifyButton = $('#verifyButton');
+
+            if (/^\d+$/.test(voucherID)) {
+                verifyButton.prop('disabled', false);
+            } else {
+                verifyButton.prop('disabled', true);
+            }
+        }
+
+        function updateTotal() {
+            var cashAmount = parseFloat($('#cashAmount').val()) || 0;
+            var voucherAmount = parseFloat($('#voucherAmount').val()) || 0;
+
+            var total = cashAmount + voucherAmount;
+            $('#total').val(total.toFixed(2));
+        }
+
+        function isCashVoucherDetailsNotNull() {
+            var voucherID = $('#id').text().trim();
+            var amount = $('#amount').text().trim();
+            var status = $('#status').text().trim();
+            var currency = $('#currency').text().trim();
+
+            return voucherID !== '' && amount !== '' && status !== '' && currency !== '';
+        }
+
+        function toggleApplyButton() {
+            var applyButton = $('#applyButton');
+            applyButton.prop('disabled', !isCashVoucherDetailsNotNull());
+        }
+
+        function resetVoucherDetails() {
+            $('#id, #amount, #status, #currency').text('');
+            $('.voucherErrorMessage').hide();
+        }
+
+        function checkEmptyValues() {
+            var isEmpty = false;
+            if ($('#id').text().trim() === '' || $('#amount').text().trim() === '' || $('#status').text().trim() === '' || $('#currency').text().trim() === '') {
+                isEmpty = true;
+            }
+
+            if (isEmpty) {
+                resetVoucherDetails();
+            }
+        }
+
+        function validateCashAmount() {
+            var cashAmount = parseFloat($('#cashAmount').val()) || 0;
+
+            if (cashAmount <= 0) {
+                $('#cashAmount').val(0.01);
+            }
+        }
+    });
+</script>

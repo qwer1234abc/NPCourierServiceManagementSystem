@@ -1,0 +1,24 @@
+﻿@model WEB_Assignment_IT02_Team7.Models.FeedbackEnquiry
+
+@{
+    ViewData["Title"] = "ResponseDetails";
+}
+
+<div class="viewFeedbackEnquriyDetails">
+    <h2 style="text-align:center;">Feedback/Enquiry Details</h2>
+    <div class="form-group">
+        <label>Feedback/Enquiry Content:</label>
+        <textarea class="form-control" rows="8" readonly>@Html.Display("Content")</textarea>
+    </div>
+    <div class="form-group mt-5">
+        <label>Feedback/Enquiry Response:</label>
+        @if (Model.Response != null)
+        {
+            <textarea class="form-control" rows="8" readonly>@Html.Display("Response")</textarea>
+        }
+        else
+        {
+            <textarea class="form-control text-danger" rows="8" readonly>Unresponded</textarea>
+        }
+    </div>
+</div>

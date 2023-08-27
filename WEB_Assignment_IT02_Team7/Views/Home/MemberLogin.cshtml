@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "MemberLogin";
+}
+
+<div class="container-fluid">
+    <div class="row align-items-center justify-content-center custom-min-vh-90">
+        <div class="rounded-border-box d-flex flex-column align-items-center justify-content-center">
+            <h2 class="text-center mb-4">Member Login</h2>
+            <form method="post" action="~/Home/LoginMember" class="member-form">
+                <div class="form-group">
+                    <label for="memberLoginEmail">Email</label>
+                    <input type="text" name="memberLoginEmail" class="form-control" id="memberLoginEmail" placeholder="Enter Email Address" required>
+                </div>
+                <div class="form-group">
+                    <label for="memberLoginPassword">Password</label>
+                    <input type="password" name="memberLoginPassword" class="form-control" id="memberLoginPassword" placeholder="Enter Password" required>
+                </div>
+                <span id="invalidMessage" style="color: red; margin-bottom:20px;">@TempData["Message"]</span>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+        </div>
+    </div>
+</div>

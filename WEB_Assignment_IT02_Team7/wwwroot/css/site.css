@@ -1,0 +1,249 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    font-size: 14px;
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    user-select: none;
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+nav {
+    padding: 0 20px;
+    background-color: #fcfaca;
+}
+
+    nav .nav-link {
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+
+.background-image-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.body-home {
+    min-height: 100vh;
+    background-image: url(../../assets/Homepage.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.body-about {
+    min-height: 100vh;
+    background-image: url(../../assets/AboutUs.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.body-contact {
+    min-height: 100vh;
+    background-image: url(../../assets/ContactUs.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.body-track {
+    min-height: 100vh;
+    background-image: url(../../assets/CommonTrackDelivery.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.body-loginRegister {
+    min-height: 100vh;
+    background-image: url(../../assets/LoginRegister.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.container-fluid {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.custom-min-vh-90 {
+    min-height: 90vh;
+}
+
+.rounded-border-box {
+    border: 2px solid rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    min-height: 400px;
+    height: auto;
+    max-width: 80vw;
+    width: 130%;
+    margin: 0 auto;
+}
+
+.btn-primary,
+.btn-primary:disabled {
+    background-color: #fcfaca;
+    color: #000;
+    border: 0.2px solid #000000;
+    font-weight: bold;
+}
+
+    .btn-primary:hover {
+        background-color: #000;
+        border: 0.2px solid #fff;
+    }
+
+.staff-form,
+.member-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+    .staff-form .form-group,
+    .member-form .form-group {
+        display: flex;
+        flex: 1;
+        margin-bottom: 30px;
+        align-items: center;
+    }
+
+        .staff-form .form-group label,
+        .member-form .form-group label {
+            white-space: nowrap;
+            width: 125px;
+        }
+
+        .staff-form .form-group .form-control,
+        .member-form .form-group .form-control {
+            flex-grow: 1;
+        }
+
+.createParcelForm, .transactDetails,
+.transactPayment, .voucherDetails,
+.createFeedbackEnquiryForm, .viewFeedbackEnquriyDetails,
+.searchForm, .createResponseForm,
+.memberRegisterForm {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 5px;
+    margin: 50px 0;
+}
+
+    .createParcelForm .form-group,
+    .transactPayment .form-group,
+    .memberRegisterForm .form-group {
+        display: inline-block;
+        margin: 5px;
+    }
+
+    .createParcelForm .readonly,
+    .transactPayment .readonly {
+        background-color: #f8f9fa;
+        pointer-events: none;
+        touch-action: none;
+    }
+
+.form-group span.form-control {
+    display: inline-block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    box-sizing: border-box;
+}
+
+.custom-hr {
+    border: none;
+    border-top: 3px solid #c0c1c2;
+    margin: 20px 0;
+}
+
+.unpaidTable, .deliveryRecord, .viewResponses, .deliveryInformationTable, .deliveryHistoryTable, .responseTable, .currencyTable, .assignedParcels {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 85vw;
+    margin: 50px auto;
+    overflow-x: auto;
+}
+
+    .unpaidTable table, .deliveryRecord table, .viewResponses table, .deliveryInformationTable table, .deliveryHistoryTable table, .responseTable table, .assignedParcels table {
+        width: 100%;
+        white-space: nowrap;
+    }
+
+    .unpaidTable td, .deliveryRecord td, .viewResponses td, .deliveryInformationTable td, .deliveryHistoryTable td, .responseTable td, .assignedParcels td {
+        vertical-align: middle;
+    }
+
+.front-index-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+    .front-index-container .list-group-item {
+        padding: 1rem 0;
+    }
+
+.noUnpaidParcels, .noDeliveryRecord, .noResponse, .noDeliveryRecord, .noDeliveryHistory, .noCurrency, .noAssignedParcels, .noWeather {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.weather-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.weather-card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    margin: 10px;
+    width: 300px;
+    text-align: center;
+}
+
+.weather-card h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.weather-card img {
+    width: 50px;
+    height: 50px;
+}
+
+.weather-card p {
+    margin: 5px;
+}

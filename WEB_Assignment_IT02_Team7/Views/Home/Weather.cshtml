@@ -1,0 +1,35 @@
+﻿@model IEnumerable<WEB_Assignment_IT02_Team7.Models.Weather>
+
+@{
+    ViewData["Title"] = "Weather";
+}
+
+<h1 style="text-align: center; margin-top: 10px;">Weather Forecast</h1>
+
+
+<div class="weather-container">
+    @if (Model != null && Model.Count() > 0)
+    {
+        @foreach (var weather in Model)
+        {
+            <div class="weather-card">
+                <h3>@weather.City, @weather.Country</h3>
+                <p>Date: @weather.Date</p>
+                <img src="@weather.WeatherImageURL" alt="Weather Image" />
+                <p>Temperature: @weather.Temperature°C</p>
+                <p>Condition: @weather.Condition</p>
+                <p>Precipitation: @weather.Precipitation mm</p>
+                <p>Humidity: @weather.Humidity%</p>
+                <p>Cloud: @weather.Cloud km</p>
+                <p>Wind Speed: @weather.WindSpeed kph</p>
+                <p>UV Index: @weather.UVIndex</p>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="noWeather">
+            <p>No weather data available.</p>
+        </div>
+    }
+</div>

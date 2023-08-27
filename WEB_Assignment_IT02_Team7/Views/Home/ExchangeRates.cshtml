@@ -1,0 +1,41 @@
+﻿@model IEnumerable<WEB_Assignment_IT02_Team7.Models.ExchangeRate>
+
+@{
+    ViewData["Title"] = "ExchangeRates";
+}
+
+@if (Model.ToList().Count > 0)
+{
+    <div class="currencyTable">
+        <h2 class="text-center mb-2">Exchange Rates</h2>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Base)</th>
+                    <th>Base Amount</th>
+                    <th>@Html.DisplayNameFor(model => model.Target)</th>
+                    <th>@Html.DisplayNameFor(model => model.ExchangeRates)</th>
+                    <th>@Html.DisplayNameFor(model => model.LastUpdated)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Base</td>
+                        <td>1.00</td>
+                        <td>@item.Target</td>
+                        <td>@string.Format("{0:F2}", item.ExchangeRates[item.Target])</td>
+                        <td>@DateTimeOffset.FromUnixTimeSeconds(item.LastUpdated).DateTime.ToString("dd MMM yyyy")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="noCurrency">
+        <h2 class="text-center text-danger">No Exchange Rates</h2>
+    </div>
+}

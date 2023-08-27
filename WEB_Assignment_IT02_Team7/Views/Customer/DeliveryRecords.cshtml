@@ -1,0 +1,75 @@
+﻿@model IEnumerable<WEB_Assignment_IT02_Team7.Models.Parcel>
+
+@{
+    ViewData["Title"] = "DeliveryRecords";
+}
+
+@if (Model.ToList().Count > 0)
+{
+    <div class="deliveryRecord">
+        <h2 class="text-center">Delivery Record/History</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Parcel ID</th>
+                    <th>Sender Name</th>
+                    <th>Sender Tel No</th>
+                    <th>Receiver Name</th>
+                    <th>Receiver Tel No</th>
+                    <th>Delivery Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.ParcelID</td>
+                        <td>@item.SenderName</td>
+                        <td>@item.SenderTelNo</td>
+                        <td>@item.ReceiverName</td>
+                        <td>@item.ReceiverTelNo</td>
+                        <td>
+                            @if (item.DeliveryStatus == '0')
+                            {
+                                <span class="text-warning">Pending Delivery</span>
+                            }
+                            else if (item.DeliveryStatus == '1')
+                            {
+                                <span class="text-primary">Delivery to Destination in Progress</span>
+                            }
+                            else if (item.DeliveryStatus == '2')
+                            {
+                                <span class="text-primary">Delivery to Airport in Progress</span>
+                            }
+                            else if (item.DeliveryStatus == '3')
+                            {
+                                <span class="text-success">Delivery Completed</span>
+                            }
+                            else if (item.DeliveryStatus == '4')
+                            {
+                                <span class="text-danger">Delivery Failed</span>
+                            }
+                            else
+                            {
+                                <span class="text-muted">Unknown Status</span>
+                            }
+                        </td>
+                        <td>
+                            <a asp-action="DisplayDeliveryHistory"
+                               asp-controller="Customer"
+                               asp-route-parcelID="@item.ParcelID"
+                               class="btn btn-primary btn-sm btn-table">Delivery History</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="noDeliveryRecord">
+        <h2 class="text-center text-danger">No Delivery Records</h2>
+    </div>
+}

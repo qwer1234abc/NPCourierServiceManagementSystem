@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    var role = Context.Session.GetString("Role");
+    var name = Context.Session.GetString("Name");
+}
+
+<div class="container front-index-container">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-8">
+            <h2>Welcome @name!</h2>
+            <h3>Here are the functions for @role:</h3>
+            <ul class="list-group list-group-flush">
+                <a href="~/Customer/DeliveryRecords" class="list-group-item list-group-item-action">Delivery Records</a>
+                <a href="~/Customer/CreateFeedbackEnquiries" class="list-group-item list-group-item-action">Feedback/Enquiries</a>
+                <a href="~/Customer/ViewResponses" class="list-group-item list-group-item-action">View Responses</a>
+            </ul>
+        </div>
+    </div>
+</div>
