@@ -87,7 +87,7 @@ namespace WEB_Assignment_IT02_Team7.Controllers
             ViewData["SalutationList"] = salutationList;
             if (ModelState.IsValid)
             {
-                member.MemberID = commonContext.MemberRegister(member);                
+                member.MemberID = commonContext.MemberRegister(member);
                 return RedirectToAction("LoginRegister");
             }
             else
@@ -209,7 +209,7 @@ namespace WEB_Assignment_IT02_Team7.Controllers
                 client.BaseAddress = new Uri("http://api.weatherapi.com");
 
                 string apiKey = "1711426e8f20455b8bb32725231707";
-                int days = 8;
+                int days = 3;
                 string url = $"/v1/forecast.json?key={apiKey}&q={ipAddress}&days={days}&aqi=no&alerts=no";
                 HttpResponseMessage weatherResponse = await client.GetAsync(url);
 
